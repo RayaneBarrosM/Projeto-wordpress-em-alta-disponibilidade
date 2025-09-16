@@ -66,4 +66,6 @@
  <sub>As informações devem ser alteradas conforme as suas necessidades</sub>
     > [! Important]
     > Caso não consiga copiar ou não tenha conseguido fazer acesse [WordPress Image](https://hub.docker.com/_/wordpress) para informações mais detalhadas.
+    > [!IMPORTANT]
+> Key information users need to know to achieve their goal.
     
