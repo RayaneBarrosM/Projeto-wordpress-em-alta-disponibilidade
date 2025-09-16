@@ -29,9 +29,8 @@
 `````
 
 **1. Criação do Docker compose**
-    
     Para utilizar o Wordpresse iremos baixa-lo por meio do Docker Compose
-    
+ 
 ```
     services:
     
@@ -64,8 +63,7 @@
       db:
     
  ```
-    <sub>As informações devem ser alteradas conforme as suas necessidades</sub>
-    
-    >  [! Important]
-    
+ <sub>As informações devem ser alteradas conforme as suas necessidades</sub>
+    > [! Important]
     > Caso não consiga copiar ou não tenha conseguido fazer acesse [WordPress Image](https://hub.docker.com/_/wordpress) para informações mais detalhadas.
+    
