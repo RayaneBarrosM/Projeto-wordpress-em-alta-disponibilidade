@@ -1,24 +1,24 @@
-#Projeto Wordpress em alta-disponibilidade
+# Projeto Wordpress em alta-disponibilidade
 
-##💭Objetivos
+## 💭Objetivos
 
 - inplantar a plataforma Wordpress na nuvem AWS
 - garantir alta disponibilidade, escalabilidade e resiliencia
 - armazenar dados em banco relacional SQL
 
-#🏹Passo a passo
+# 🏹Passo a passo
 
-**##1) instalar o dockerdescktop na maquina**
+**## 1) instalar o dockerdescktop na maquina**
 
 1. Acesse https://docs.docker.com/desktop/ 
 2. Escolha a instalação com base no seu SO
 3. Selecione Docker Desktop for Windows - x86_64
 
-##2)Criando Container WordPress
+## 2)Criando Container WordPress
 
-1. * Crie uma pasta para armazenar seu projeto *
+**1. Crie uma pasta para armazenar seu projeto**
     
-    `````
+`````
     cd Documents
     
     mkdir PjWordPress 
@@ -28,13 +28,11 @@
 
 `````
 
-1. * Criação do Docker compose *
+**1. Criação do Docker compose**
     
     Para utilizar o Wordpresse iremos baixa-lo por meio do Docker Compose
     
-    `````
-    
-    ```jsx
+```
     services:
     
       wordpress:
@@ -65,9 +63,7 @@
       wordpress:
       db:
     
-    ```
-    
-    `````
+ ```
     <sub>As informações devem ser alteradas conforme as suas necessidades</sub>
     
     >  [! Important]
