@@ -28,7 +28,7 @@
 
 `````
 
-**1. Criação do Docker compose**
+**## 2. Criação do Docker compose**
     Para utilizar o Wordpresse iremos baixa-lo por meio do Docker Compose
  
 ```
@@ -64,8 +64,15 @@
     
  ```
  <sub>As informações devem ser alteradas conforme as suas necessidades</sub>
-    > [! Important]
-    > Caso não consiga copiar ou não tenha conseguido fazer acesse [WordPress Image](https://hub.docker.com/_/wordpress) para informações mais detalhadas.
-    > [!IMPORTANT]
-> Key information users need to know to achieve their goal.
-    
+
+**## 3. Rodando a Imagem**
+```
+docker-compose up -d
+```
+<img width="401" height="82" alt="image" src="https://github.com/user-attachments/assets/dd2323af-7668-4cbb-aafd-845f0a673575" />
+
+
+> [!IMPORTANT]
+> Caso não consiga copiar ou não tenha conseguido fazer acesse [WordPress Image](https://hub.docker.com/_/wordpress) para informações mais detalhadas.
+
+
