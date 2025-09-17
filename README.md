@@ -9,7 +9,7 @@
 # 🏹Passo a passo
 ## 1) Configuração de Rede (VPC)
 Na barra de pesquisa procure por VPC
-vá em Sub-redes e clique em <ins>`Criar sub-rede`</ins>
+vá em Sub-redes e clique em <ins>`Criar sub-rede`</ins> então siga os seguintes passos nas imagens
 
 <img width="928" height="282" alt="image" src="https://github.com/user-attachments/assets/d89b27b8-4dd0-4e11-bb4a-00be4f2fa484" />
 <img width="897" height="681" alt="image" src="https://github.com/user-attachments/assets/0610340a-b44c-4336-a4be-c2c448d822a9" />
