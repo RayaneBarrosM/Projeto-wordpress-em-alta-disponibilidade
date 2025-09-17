@@ -20,12 +20,11 @@ vá em Sub-redes e clique em <ins>`Criar sub-rede`</ins>
 ## 2) Criando Internet Gateway
 O Internet Gateway(IGW) é usado para tráfego **PÚBLICO** (entrada e saída).
 
-Na barra lateral escolha internet Gateway e clique no botão `Criar Gateway da Internet`
+**1.Na barra lateral escolha internet Gateway e clique no botão `Criar Gateway da Internet`**
 
 <img width="992" height="439" alt="image" src="https://github.com/user-attachments/assets/731ba1f5-705c-4c4a-939e-50f7b94f7a53" />
 
-
-Após criar voce deve associa-lo a sua VPC
+**2.Após criar voce deve associa-lo a sua VPC**
 
 <img width="988" height="259" alt="image" src="https://github.com/user-attachments/assets/8b07ce27-25c4-43f2-8191-3e47ec2e3c8d" />
 
@@ -37,17 +36,16 @@ Para isso é necessario nomea-lo, escolher a sub-rede, definir a conectvidade da
 
 ## 4 Criando tabela de rotas
 
-1. Para criar a tabela de rotas é preciso nomea-la e indicar a VPC
+**1. Para criar a tabela de rotas é preciso nomea-la e indicar a VPC**
 
 <img width="988" height="515" alt="image" src="https://github.com/user-attachments/assets/4a422a44-bccf-43f1-8910-61ddf01db0a8" />
 
-**1. Em rotas escolha editar rotas**
+**2. Em rotas escolha editar rotas**
 
 <img width="611" height="96" alt="image" src="https://github.com/user-attachments/assets/7e86cf25-f58d-4a0f-8ef2-285ad417f6dc" />
 <img width="616" height="370" alt="image" src="https://github.com/user-attachments/assets/07ae1982-b5ef-4edb-a896-bb43093c5c6e" />
-
-
 <sub>Assim deve aparecer a nova tabela rota na tabela</sub>
+
 -----------------------------------
 ## 1) instalar o Docker Desktop na maquina
 
