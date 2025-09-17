@@ -8,13 +8,13 @@
 
 # 🏹Passo a passo
 
-**## 1) instalar o dockerdescktop na maquina**
+**##1) instalar o dockerdescktop na maquina**
 
 1. Acesse https://docs.docker.com/desktop/ 
 2. Escolha a instalação com base no seu SO
 3. Selecione Docker Desktop for Windows - x86_64
 
-## 2)Criando Container WordPress
+##2)Criando Container WordPress
 
 **1. Crie uma pasta para armazenar seu projeto**
     
@@ -28,7 +28,7 @@
 
 `````
 
-**## 2. Criação do Docker compose**
+**##2. Criação do Docker compose**
     Para utilizar o Wordpresse iremos baixa-lo por meio do Docker Compose
  
 ```
