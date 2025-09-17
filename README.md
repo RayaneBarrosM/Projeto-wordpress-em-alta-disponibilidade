@@ -17,7 +17,7 @@ vá em Sub-redes e clique em <ins>`Criar sub-rede`</ins>
 
 ❗Devem ser criadas 6 sub-redes e devem ser utilizadas duas AZ(Zonas de **disponibilidade**)
 
-##2 Criando Internet Gateway
+## 2) Criando Internet Gateway
 O Internet Gateway(IGW) é usado para tráfego **PÚBLICO** (entrada e saída).
 
 Na barra lateral escolha internet Gateway e clique no botão `Criar Gateway da Internet`
@@ -28,7 +28,7 @@ Após criar voce deve associa-lo a sua VPC
 
 ![image.png](attachment:07334935-1e9b-44b7-b960-6ead67b20e68:image.png)
 
-## 4 Criando tabela de rotas
+## 4) Criando tabela de rotas
 
 Para criar a tabela de rotas é preciso nomea-la e indicar a VPC
 
