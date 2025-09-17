@@ -29,20 +29,25 @@ Após criar voce deve associa-lo a sua VPC
 
 <img width="988" height="259" alt="image" src="https://github.com/user-attachments/assets/8b07ce27-25c4-43f2-8191-3e47ec2e3c8d" />
 
-
-## 3) Criando tabela de rotas
-
-Para criar a tabela de rotas é preciso nomea-la e indicar a VPC
-
-<img width="988" height="515" alt="image" src="https://github.com/user-attachments/assets/7f175b03-79a9-4330-a831-9dff30b47d66" />
-
-
-## 4) Criando NAT Gateway
+## 3) Criando NAT Gateway
 
 Para isso é necessario nomea-lo, escolher a sub-rede, definir a conectvidade da subnet e adicionar um IP elastico, caso  não tenha ele ira criar automaticamente ao clicar em alocar IP elastico. 
 
 <img width="616" height="370" alt="image" src="https://github.com/user-attachments/assets/515aeed8-57b6-44e5-84a4-5c6e8ba5c81d" />
 
+## 4 Criando tabela de rotas
+
+1. Para criar a tabela de rotas é preciso nomea-la e indicar a VPC
+
+<img width="988" height="515" alt="image" src="https://github.com/user-attachments/assets/4a422a44-bccf-43f1-8910-61ddf01db0a8" />
+
+**1. Em rotas escolha editar rotas**
+
+<img width="611" height="96" alt="image" src="https://github.com/user-attachments/assets/7e86cf25-f58d-4a0f-8ef2-285ad417f6dc" />
+<img width="616" height="370" alt="image" src="https://github.com/user-attachments/assets/07ae1982-b5ef-4edb-a896-bb43093c5c6e" />
+
+
+<sub>Assim deve aparecer a nova tabela rota na tabela</sub>
 -----------------------------------
 ## 1) instalar o Docker Desktop na maquina
 
