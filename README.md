@@ -8,7 +8,7 @@
 
 # 🏹Passo a passo
 
-## 1) instalar o dockerdescktop na maquina
+## 1) instalar o Docker Desktop na maquina
 
 1. Acesse https://docs.docker.com/desktop/ 
 2. Escolha a instalação com base no seu SO
@@ -28,7 +28,7 @@
 
 `````
 
-**##2. Criação do Docker compose**
+**2. Criação do Docker compose**
     Para utilizar o Wordpresse iremos baixa-lo por meio do Docker Compose
  
 ```
@@ -65,7 +65,7 @@
  ```
  <sub>As informações devem ser alteradas conforme as suas necessidades</sub>
 
-**## 3. Rodando a Imagem**
+**3. Rodando a Imagem**
 ```
 docker-compose up -d
 ```
