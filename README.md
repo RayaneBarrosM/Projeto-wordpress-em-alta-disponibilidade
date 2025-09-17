@@ -8,7 +8,7 @@
 
 # 🏹Passo a passo
 
-**##1) instalar o dockerdescktop na maquina**
+##1) instalar o dockerdescktop na maquina
 
 1. Acesse https://docs.docker.com/desktop/ 
 2. Escolha a instalação com base no seu SO
