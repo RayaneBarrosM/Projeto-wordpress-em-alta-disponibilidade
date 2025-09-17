@@ -10,11 +10,10 @@
 ## 1) Configuração de Rede (VPC)
 Na barra de pesquisa procure por VPC
 vá em Sub-redes e clique em <ins>`Criar sub-rede`</ins>
-![image.png](attachment:7ae22cfa-9267-4830-a5ec-b848c197fe6e:image.png)
+<img width="928" height="282" alt="image" src="https://github.com/user-attachments/assets/d89b27b8-4dd0-4e11-bb4a-00be4f2fa484" />
 
-![image.png](attachment:f4d630fe-b8bc-4b21-916e-f7583cae061b:image.png)
-
-![image.png](attachment:e5217c2b-c4be-4ee7-89e6-4c1c2a6b5469:image.png)
+<img width="897" height="681" alt="image" src="https://github.com/user-attachments/assets/0610340a-b44c-4336-a4be-c2c448d822a9" />
+<img width="887" height="295" alt="image" src="https://github.com/user-attachments/assets/dbf538ef-b729-4480-8dd1-a700cce448a1" />
 
 ❗Devem ser criadas 6 sub-redes e devem ser utilizadas duas AZ(Zonas de **disponibilidade**)
 
