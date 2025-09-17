@@ -10,12 +10,12 @@
 ## 1) Configuração de Rede (VPC)
 Na barra de pesquisa procure por VPC
 vá em Sub-redes e clique em <ins>`Criar sub-rede`</ins>
-<img width="928" height="282" alt="image" src="https://github.com/user-attachments/assets/d89b27b8-4dd0-4e11-bb4a-00be4f2fa484" />
 
+<img width="928" height="282" alt="image" src="https://github.com/user-attachments/assets/d89b27b8-4dd0-4e11-bb4a-00be4f2fa484" />
 <img width="897" height="681" alt="image" src="https://github.com/user-attachments/assets/0610340a-b44c-4336-a4be-c2c448d822a9" />
 <img width="887" height="295" alt="image" src="https://github.com/user-attachments/assets/dbf538ef-b729-4480-8dd1-a700cce448a1" />
 
-❗Devem ser criadas 6 sub-redes e devem ser utilizadas duas AZ(Zonas de **disponibilidade**)
+❗<ins>Devem ser criadas 6 sub-redes e devem ser utilizadas duas AZ(Zonas de **disponibilidade**)</ins>
 
 ## 2) Criando Internet Gateway
 O Internet Gateway(IGW) é usado para tráfego **PÚBLICO** (entrada e saída).
