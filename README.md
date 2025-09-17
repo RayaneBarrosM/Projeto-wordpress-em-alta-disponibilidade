@@ -30,14 +30,14 @@ Após criar voce deve associa-lo a sua VPC
 <img width="988" height="259" alt="image" src="https://github.com/user-attachments/assets/8b07ce27-25c4-43f2-8191-3e47ec2e3c8d" />
 
 
-## 4) Criando tabela de rotas
+## 3) Criando tabela de rotas
 
 Para criar a tabela de rotas é preciso nomea-la e indicar a VPC
 
 <img width="988" height="515" alt="image" src="https://github.com/user-attachments/assets/7f175b03-79a9-4330-a831-9dff30b47d66" />
 
 
-## 3) Criando NAT Gateway
+## 4) Criando NAT Gateway
 
 Para isso é necessario nomea-lo, escolher a sub-rede, definir a conectvidade da subnet e adicionar um IP elastico, caso  não tenha ele ira criar automaticamente ao clicar em alocar IP elastico. 
 
