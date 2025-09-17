@@ -22,17 +22,20 @@ O Internet Gateway(IGW) é usado para tráfego **PÚBLICO** (entrada e saída)
 
 Na barra lateral escolha internet Gateway e clique no botão `Criar Gateway da Internet`
 
-![image.png](attachment:89a2b6bb-fa34-4497-9838-f05bc6fdac49:image.png)
+<img width="992" height="439" alt="image" src="https://github.com/user-attachments/assets/731ba1f5-705c-4c4a-939e-50f7b94f7a53" />
+
 
 Após criar voce deve associa-lo a sua VPC
 
-![image.png](attachment:07334935-1e9b-44b7-b960-6ead67b20e68:image.png)
+<img width="988" height="259" alt="image" src="https://github.com/user-attachments/assets/8b07ce27-25c4-43f2-8191-3e47ec2e3c8d" />
+
 
 ## 4) Criando tabela de rotas
 
 Para criar a tabela de rotas é preciso nomea-la e indicar a VPC
 
-![image.png](attachment:a0dc66ce-34f9-4d94-afd8-ab87c84203be:image.png)
+<img width="988" height="515" alt="image" src="https://github.com/user-attachments/assets/7f175b03-79a9-4330-a831-9dff30b47d66" />
+
 
 ##3 Criando NAT Gateway
 
