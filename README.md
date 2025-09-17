@@ -29,6 +29,7 @@
 `````
 
 **2. Criação do Docker compose**
+
     Para utilizar o Wordpresse iremos baixa-lo por meio do Docker Compose
  
 ```
