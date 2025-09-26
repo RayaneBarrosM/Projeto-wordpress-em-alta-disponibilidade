@@ -31,7 +31,7 @@
 ❗<ins>Devem ser criadas 6 sub-redes que devem ser divididas entre duas AZ(Zonas de **disponibilidade**) e em publicas ou privadas</ins>
 
 | Sub-nets  | Quantidade | Publica | Privada |
-| ------------- | ------------- |------------- |
+| ------------- | ------------- | ------------- | ------------- |
 | sub-net zona 1a  | 3 | 1 | 2 |
 | sub-net zona 1b  | 3 | 1 | 2 |
 
@@ -67,11 +67,11 @@ A tabela de rotas serve como controlador de tráfego para sua nuvem privada virt
 <img width="1124" height="493" alt="image" src="https://github.com/user-attachments/assets/b34f8cf4-36b7-47c1-843c-a17e9e1d8810" />
 
 Ao final teremos: 
-| Tabelas  | Quantidade subnets | Tabelas  | Quantidade subnets |
-| ------------- | ------------- | ------------- | ------------- |
-| Privada  | 2 | Privada  | 2 | Privada  | 2 |
-| Privada  | 2 | Privada  | 2 | Privada  | 2 |
-| Publico  | 2 | Privada  | 2 | Privada  | 2 |
+| Tabelas  | Quantidade subnets |
+| ------------- | ------------- |
+| Privada  | 2 |
+| Privada  | 2 |
+| Publico  | 2 | 
 
 
 
