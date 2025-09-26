@@ -66,12 +66,12 @@ A tabela de rotas serve como controlador de tráfego para sua nuvem privada virt
 
 <img width="1124" height="493" alt="image" src="https://github.com/user-attachments/assets/b34f8cf4-36b7-47c1-843c-a17e9e1d8810" />
 
-ao final teremos 
-| Tabelas  | Quantidade subnets |
-| ------------- | ------------- |
-| Privada  | 2 |
-| Privada  | 2 |
-| Publico  | 2 |
+Ao final teremos: 
+| Tabelas  | Quantidade subnets | Tabelas  | Quantidade subnets |
+| ------------- | ------------- | ------------- | ------------- |
+| Privada  | 2 | Privada  | 2 | Privada  | 2 |
+| Privada  | 2 | Privada  | 2 | Privada  | 2 |
+| Publico  | 2 | Privada  | 2 | Privada  | 2 |
 
 
 
