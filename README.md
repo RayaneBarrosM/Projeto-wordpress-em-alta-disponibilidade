@@ -110,7 +110,78 @@ Ao final teremos:
 1. crie um User data
 
 ```
+#!/bin/bash
+# Script de user-data para instalar WordPress via Docker Compose
 
+# Redirecionamento simples para o log de instalação
+# TUDO que for impresso daqui para frente vai para este arquivo.
+exec > /var/log/wordpress-install.log 2>&1
+
+echo "=== 🚀 INICIANDO INSTALAÇÃO AUTOMATIZADA DO WORDPRESS ==="
+echo "Data/Hora: $(date)"
+
+# ... O restante do seu script (com yum e systemctl) vem aqui ...
+echo "=== 🚀 INICIANDO INSTALAÇÃO AUTOMATIZADA DO WORDPRESS ==="
+echo "Data/Hora: $(date)"
+# [1/4] Atualizar sistema e instalar Docker e cliente EFS
+echo "[1/4] 📦 Atualizando sistema e instalando dependências..."
+sudo yum update -y
+sudo yum install -y docker amazon-efs-utils
+echo "✅ Pacotes instalados"
+
+# [2/4] Configurar e iniciar o Docker
+echo "[2/4] 🐳 Configurando e iniciando o Docker..."
+sudo service docker start
+sudo usermod -a -G docker ec2-user
+sudo systemctl enable docker
+echo "✅ Docker configurado e iniciado"
+
+# [3/4] Configurar e montar o EFS
+echo "[3/4] 💾 Configurando e montando EFS..."
+sudo mkdir -p /mnt/efs/wordpress
+# SUBSTITUA o ID do EFS: fs-05d0213523a66f295
+sudo mount -t efs -o tls fs-05d0213523a66f295:/ /mnt/efs
+sudo chown -R ec2-user:ec2-user /mnt/efs
+echo "✅ EFS montado"
+
+# [4/4] Criar o arquivo docker-compose.yml e iniciar o WordPress
+echo "[4/4] 📁 Criando o arquivo docker-compose.yml e iniciando containers..."
+sudo mkdir -p /home/ec2-user/wordpress-project
+cd /home/ec2-user/wordpress-project
+sudo chown -R ec2-user:ec2-user /home/ec2-user/wordpress-project
+sudo cat > docker-compose.yml << 'EOF'
+version: '3.8'
+services:
+  wordpress:
+    image: wordpress:latest
+    container_name: wordpress
+    restart: always
+    ports:
+      - "80:80"
+    environment:
+      # SUBSTITUA os valores abaixo com os seus do RDS
+      WORDPRESS_DB_HOST: "database-2.ckhgqequqtkn.us-east-1.rds.amazonaws.com"
+      WORDPRESS_DB_USER: "admin"
+      WORDPRESS_DB_PASSWORD: "sbdpJ448!"
+      WORDPRESS_DB_NAME: "database-2"
+    volumes:
+      # Mapeia o diretório do EFS para o contêiner
+      - /mnt/efs/wordpress:/var/www/html
+    networks:
+      - wordpress_network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+networks:
+  wordpress_network:
+    driver: bridge
+EOF
+echo "✅ Arquivo docker-compose.yml criado"
+sleep 5 # Esperar para garantir que o arquivo seja escrito
+sudo docker compose up -d
+echo "✅ Instalação finalizada"
 ```
 
 2. No console EC2 procure por modelo de execução
