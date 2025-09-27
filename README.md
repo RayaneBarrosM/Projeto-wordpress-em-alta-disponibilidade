@@ -171,9 +171,4 @@ verifique se foram criados dois nat gateways para cada região, ambos estão com
 -----------------------------------
 ## 2) Editando WordPress
 Para saber mais sobre como editar o wordpress [Clique aqui](./Wordpress-Edição.md)
-## 3) Criando Banco de dados
-Na barra de pesquisa procure por RDS
-Clique em Criar banco de dados
-Criação padrão
-na seção de configuração escolha o db MySQL
 
