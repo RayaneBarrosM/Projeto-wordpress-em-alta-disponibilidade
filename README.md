@@ -73,10 +73,102 @@ Ao final teremos:
 | Privada  | 2 |
 | Publico  | 2 | 
 
+# Configurando Banco de dados(RDS)
+1. Na barra de busca pesquise por RDS
+2. clique em `criar banco de dados`
+3. Escolha criação padrão
+4. Em opções de mecanismo escolha MYSQL
+5. Escolha modelo de nivel gratuito(single-AZ)
+6. Em Grupo de segurança de VPC clique em `Criar novo`
+7. nomeio como  **GPseguranca-RDS**
+8. Clique em `criar banco de dados`
+9. Vá até o serviço EC2 -> Security Groups
+10. Localize o grupo  `GPseguranca-RDSVPC` que foi criado e selecioneo
+11. Na aba "Regras de entrada", clique em "Editar regras de entrada"
+12. Escolha `Tipo: MYSQL/Aurora` `Origim: sg-IP_EC2` (Isso garante que APENAS as instâncias EC2 poderão acessar a porta do banco de dados.)
+13.  Clique em `Salvar regras`
+14.  Verifique se a rota foi criada
+    
+<img width="818" height="65" alt="image" src="https://github.com/user-attachments/assets/69bc7151-1f46-49a3-a6ec-ad45ebab4998" />
 
+## 3) Criando EFS
 
+1.primeiro crie um grupo de segurança para o EC2
 
+1. **Acesse o Console do EFS:**
+2. Clique em **"Criar sistema de arquivos"**
+3. Após a criação, clique no ID do seu EFS
+4. Vá para a aba **"Rede",** o EFS tentou criar um *Mount Target* em cada AZ da sua VPC.
+5. Clique em atualizar → após carregar clique em `gerenciar`
+6. Escolha o **Security Group das suas instâncias EC2 em ambos** *Mount Target*
+7. Clique em `Salvar`
+8. Vá em security groups no do console EC2
+9. clique em criar, nomeie e em regras de entrada enconha `Tipo: NFS` `Origem: sg-EC2`
 
+## 4) Launch Template
+
+1. crie um User data
+
+```
+
+```
+
+2. No console EC2 procure por modelo de execução
+3. clique em `criar`
+4. Dê um nome ao seu template.
+5. **AMI:** Selecione uma AMI que você já tenha configurado, ou o Amazon
+6. **Instance type:** Escolha o tipo de instância `t2.micro`
+- **Key pair:** Selecione a chave SSH usada anteriormente para acesso
+- **Security groups:** Associe os SGs EC2
+- **Em User data** e cole o script
+
+# 4) Criar o Auto Scaling Group (ASG):
+1. Clique em **Create Auto Scaling group**.
+2. Dê um nome ao seu ASG.
+3. Selecione o **Launch Template** que você acabou de criar.
+4. Configure as sub-redes privadas para o ASG adicionando a sua VPC e todas as subnets privadas→proximo.
+5. Vincule o ASG ao seu **Application Load Balancer (ALB)**
+6. Na aba **Anexar a um novo balanceador de carga escolha Application Load Balancer, nomeie, interface-facing, escolha duas sub-nets publicas e crie um novo grupo de destino**
+7. Passe para a próxima etapa
+8. Escolha Política de dimensionamento com monitoramento do objetivo e nomeie
+9. clique em `criar`
+
+# 5) Criar o Application Load Balancer (ALB)
+1. O ALB distribuirá o tráfego entre as instâncias do ASG.
+2. No console da AWS, vá para **EC2 > Load Balancers**.
+3. verifique se seu Loadbalancer foi criado
+4. vá para grupos de destino(target group)
+5. verifique se o grupo foi criado
+6. Entre na aba destino
+7. verifique o `Health Check` ou “status de integridade ”para verificar a saúde das instâncias.
+8. Se o status estiver `healthy`, isso significa que o ALB consegue se conectar à instância!
+
+# 6) Testando
+1. crie uma instancia para fazer a coneção com a instancia via Bastion Host
+2. utilize a mesma chave de acesso anterior, habilite IP publico e permita apenas trafego ssh
+3. crie um security group para ele
+```
+# Regras de entrada:
+SSH | TCP | 22 | Seu-IP/32
+# Regras de saida:
+SSH | TCP | 22 | wordpress-ec2-sg (para acessar as instâncias WordPress)
+```
+4. Vá para o **Security Group das suas instâncias do WordPress** (o Security Group que o seu Launch Template está usando).
+5. Exclua a regra de entrada que permite o tráfego SSH (porta 22).
+6. Adicione novamente
+7. **Em origem** coloque o **ID do Security Group do Bastion Host**
+8. abra o powershell e rode o comando
+  ```
+  ssh -i "caminho-da-chave-de-acesso.pem" ec2-user@IP-instancia Bastion_host
+  chmod 400chave-de-acesso.pem
+  ssh -i "chave-de-acesso.pem" ec2-user@IP-privado-instancia-wordpress
+  ```
+para ver os logs digite `cat /var/log/wordpress-install.log`
+
+**Casos de unhealth**
+verifique se foram criados dois nat gateways para cada região, ambos estão com tipo de conectividade publica e IPs publicos e privados, além disso tenho duas tabelas de rotas privadas cada uma recebendo duas subnets privadas com as rotas no padrão 172.31.0.0/16	local
+0.0.0.0/0	nat-xxxxxxxxxxxxx (Seu NAT Gateway ID)
+-----------------------------------
 ## 2) Editando WordPress
 Para saber mais sobre como editar o wordpress [Clique aqui](./Wordpress-Edição.md)
 ## 3) Criando Banco de dados
