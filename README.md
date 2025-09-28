@@ -17,8 +17,17 @@
 - Launch Template
 - ASG e ALB
 
-# Configurando a Rede (VPC)
-## 1) Sub-redes
+# Configurando a Rede
+## 1) VPC
+1. Procure por VPC
+2. clique em `criar VPC`
+3. Selecione a opção "VPC e muito mais
+<img width="1322" height="848" alt="image" src="https://github.com/user-attachments/assets/69e73b92-2f35-4b60-bd4a-44a0f9a1ff81" />
+
+. clique em `Criar VPC`
+
+-----------------------------------------manual----------------------------
+## 2) Sub-redes
 1. Na barra de pesquisa procure por VPC
 2. Crie a VPC
 3. vá em Sub-redes e clique em <ins>`Criar sub-rede`</ins>
@@ -35,7 +44,7 @@
 | sub-net zona 1a  | 3 | 1 | 2 |
 | sub-net zona 1b  | 3 | 1 | 2 |
 
-## 2) Criando Internet Gateway
+## 3) Criando Internet Gateway
 O Internet Gateway(IGW) é usado para tráfego **PÚBLICO** (entrada e saída).
 1. Na barra lateral escolha internet Gateway e clique no botão `Criar Gateway da Internet`
 2. nomeio
@@ -43,7 +52,7 @@ O Internet Gateway(IGW) é usado para tráfego **PÚBLICO** (entrada e saída)
 
 <img width="988" height="259" alt="image" src="https://github.com/user-attachments/assets/8b07ce27-25c4-43f2-8191-3e47ec2e3c8d" />
 
-## 3) Criando NAT Gateway
+## 4) Criando NAT Gateway
 O NAT gataway permiti o tráfego de saída de internet de instâncias em uma sub-rede privada.
 1. Escolha NAT Gateway e clique no botão `criar gateway NAT`
 2. nomei-lo, escolha uma sub-rede publica, definia a conectvidade como publica e aloque um IP elastico(caso não tenha ele ira criar automaticamente ao clicar em alocar IP elastico).
