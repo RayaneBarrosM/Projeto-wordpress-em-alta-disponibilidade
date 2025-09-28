@@ -81,39 +81,57 @@ Ao final teremos:
 | Privada  | 2 |
 | Privada  | 2 |
 | Publico  | 2 | 
+# Security Group
+Para continuar o projeto devem ser feitos securitys groups para o Bastion Host, ALB, EC2, RDS e EFS.
+**Regras de entras do SG-Bastion:**
+| Tipo  | Origem |
+| ------------- | ------------- |
+| SSH  | IP |
+**Regras de entras do SG-Load-Balancer:**
+| Tipo  | Origem |
+| ------------- | ------------- |
+| HTTP  | 0.0.0.0/0 |
+**Regras de entras do SG-EC2:**
+| Tipo  | Origem |
+| ------------- | ------------- |
+| HTTP  | SG-ALB |
+| SSH  | SG-Bastion |
+| Todo trafego  | IP |
+**Regras de entras do SG-RDS:**
+| Tipo  | Origem |
+| ------------- | ------------- |
+| MySQL/Aurora | SG-EC2 |
+**Regras de entras do SG-EFS:**
+| Tipo  | Origem |
+| ------------- | ------------- |
+| NFS  | SG-EC2 |
+
 
 # Configurando Banco de dados(RDS)
 1. Na barra de busca pesquise por RDS
-2. clique em `criar banco de dados`
-3. Escolha criação padrão
-4. Em opções de mecanismo escolha MYSQL
-5. Escolha modelo de nivel gratuito(single-AZ)
-6. Em Grupo de segurança de VPC clique em `Criar novo`
-7. nomeio como  **GPseguranca-RDS**
-8. Clique em `criar banco de dados`
-9. Vá até o serviço EC2 -> Security Groups
-10. Localize o grupo  `GPseguranca-RDSVPC` que foi criado e selecioneo
-11. Na aba "Regras de entrada", clique em "Editar regras de entrada"
-12. Escolha `Tipo: MYSQL/Aurora` `Origim: sg-IP_EC2` (Isso garante que APENAS as instâncias EC2 poderão acessar a porta do banco de dados.)
-13.  Clique em `Salvar regras`
-14.  Verifique se a rota foi criada
+2. na lateral clique em grupos de sub-redes
+3. verifique se `wordpress-db-subnet-group` foi criado automaticamente
+4. caso tenha sido clique em `Editar subredes`
+5. Escolha as zonas us-east-a e us-east-b e as subnets separadas para o rds
+    <img width="642" height="680" alt="image" src="https://github.com/user-attachments/assets/7ec7f94c-43b0-4862-b2c9-bb0091b713e0" />
+6. Va para Banco de dados
+7. clique em `criar banco de dados`
+8. Escolha criação padrão
+9. Em opções de mecanismo escolha MYSQL versão 8.0.42
+10. Escolha modelo de nivel gratuito single-AZ(apenas para estudo)
+11. escolha autogerenciada e coloque a senha
+12. Escolha a instancia `db.t3.micro`, escolha a sub-rede criada e o grupo de segurança SG-RDS
+13. Clique em `criar banco de dados`
     
 <img width="818" height="65" alt="image" src="https://github.com/user-attachments/assets/69bc7151-1f46-49a3-a6ec-ad45ebab4998" />
 
 ## 3) Criando EFS
 
-1.primeiro crie um grupo de segurança para o EC2
-
 1. **Acesse o Console do EFS:**
-2. Clique em **"Criar sistema de arquivos"**
-3. Após a criação, clique no ID do seu EFS
-4. Vá para a aba **"Rede",** o EFS tentou criar um *Mount Target* em cada AZ da sua VPC.
-5. Clique em atualizar → após carregar clique em `gerenciar`
-6. Escolha o **Security Group das suas instâncias EC2 em ambos** *Mount Target*
-7. Clique em `Salvar`
-8. Vá em security groups no do console EC2
-9. clique em criar, nomeie e em regras de entrada enconha `Tipo: NFS` `Origem: sg-EC2`
-
+2. Clique em `Criar sistema de arquivos` e em `Personalizado`
+3. nomeie e aberte o botão `Proximo`
+4. No *Mount Target* verifique se o ID das sub-redes são das separadas para o rds
+5. Clique em `próximo` e depois em `criar`
 ## 4) Launch Template
 
 1. crie um User data
@@ -193,16 +211,23 @@ sudo docker compose up -d
 echo "✅ Instalação finalizada"
 ```
 
-2. No console EC2 procure por modelo de execução
-3. clique em `criar`
-4. Dê um nome ao seu template.
-5. **AMI:** Selecione uma AMI que você já tenha configurado, ou o Amazon
+1. No console EC2 procure por modelo de execução
+2. clique em `criar`
+3. Dê um nome ao seu template.
+4. Selecione a **AMI Amazon**
 6. **Instance type:** Escolha o tipo de instância `t2.micro`
-- **Key pair:** Selecione a chave SSH usada anteriormente para acesso
-- **Security groups:** Associe os SGs EC2
-- **Em User data** e cole o script
+7. **Key pair:** Selecione a chave SSH usada anteriormente ou crie um novo
+8. **Security groups:** Associe os SGs EC2
+9. **Em User data** e cole o script
+10. Expanda a seção "Detalhes avançados" no final cole o script no user data
+12. clique em `criar modelo`
 
-# 4) Criar o Auto Scaling Group (ASG):
+# 4) Criar o Application Load Balancer (ALB)
+1. O ALB distribuirá o tráfego entre as instâncias do ASG.
+2. No console da AWS, vá para **EC2 > Load Balancers**
+3. 
+   
+# 5) Criar o Auto Scaling Group (ASG):
 1. Clique em **Create Auto Scaling group**.
 2. Dê um nome ao seu ASG.
 3. Selecione o **Launch Template** que você acabou de criar.
@@ -213,32 +238,15 @@ echo "✅ Instalação finalizada"
 8. Escolha Política de dimensionamento com monitoramento do objetivo e nomeie
 9. clique em `criar`
 
-# 5) Criar o Application Load Balancer (ALB)
-1. O ALB distribuirá o tráfego entre as instâncias do ASG.
-2. No console da AWS, vá para **EC2 > Load Balancers**.
-3. verifique se seu Loadbalancer foi criado
-4. vá para grupos de destino(target group)
-5. verifique se o grupo foi criado
-6. Entre na aba destino
-7. verifique o `Health Check` ou “status de integridade ”para verificar a saúde das instâncias.
-8. Se o status estiver `healthy`, isso significa que o ALB consegue se conectar à instância!
+
 
 # 6) Testando
 1. crie uma instancia para fazer a coneção com a instancia via Bastion Host
 2. utilize a mesma chave de acesso anterior, habilite IP publico e permita apenas trafego ssh
-3. crie um security group para ele
-```
-# Regras de entrada:
-SSH | TCP | 22 | Seu-IP/32
-# Regras de saida:
-SSH | TCP | 22 | wordpress-ec2-sg (para acessar as instâncias WordPress)
-```
-4. Vá para o **Security Group das suas instâncias do WordPress** (o Security Group que o seu Launch Template está usando).
-5. Exclua a regra de entrada que permite o tráfego SSH (porta 22).
-6. Adicione novamente
-7. **Em origem** coloque o **ID do Security Group do Bastion Host**
-8. abra o powershell e rode o comando
+3. utilize o security group `SG-Bastion`
+4. abra o powershell ou Git Bash e rode o comando
   ```
+  scp -i "KeyPair-04.pem" "KeyPair-04.pem" ec2-user@<IP_PUBLICO_DO_BASTION_HOST>:/home/ec2-user/
   ssh -i "caminho-da-chave-de-acesso.pem" ec2-user@IP-instancia Bastion_host
   chmod 400chave-de-acesso.pem
   ssh -i "chave-de-acesso.pem" ec2-user@IP-privado-instancia-wordpress
