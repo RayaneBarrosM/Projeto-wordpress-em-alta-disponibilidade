@@ -28,7 +28,7 @@
 
 <img width="887" height="295" alt="image" src="https://github.com/user-attachments/assets/dbf538ef-b729-4480-8dd1-a700cce448a1" />
 
-❗<ins>Devem ser criadas 6 sub-redes que devem ser divididas entre duas AZ(Zonas de **disponibilidade**) e em publicas ou privadas</ins>
+❗<ins>Devem ser criadas 6 sub-redes que devem ser divididas entre duas AZ(Zonas de **disponibilidade**) e em publicas ou privadas, as privadas serão divididas entre o rds e a aplicação</ins>
 
 | Sub-nets  | Quantidade | Publica | Privada |
 | ------------- | ------------- | ------------- | ------------- |
