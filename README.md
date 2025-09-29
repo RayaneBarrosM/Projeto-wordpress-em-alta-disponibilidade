@@ -6,7 +6,7 @@
 - garantir alta disponibilidade, escalabilidade e resiliencia
 - armazenar dados em banco relacional SQL
 
-## Tecnologias utilizadas
+## 💻Tecnologias utilizadas
 - **Infraestrutura em Nuvem:** AWS (Amazon Web Services)
     - VPC, Subnets Públicas e Privadas
     - Application Load Balancer (ALB) e Auto Scaling Group (ASG)
@@ -17,16 +17,8 @@
 - **Containerização:** Docker e Docker Compose
 - **Aplicação:** WordPress
   
-## Sumario
-- VPC
-- Security Group 
-- RDS 
-- Criando EFS 
-- Launch Template
-- ALB 
-- ASG 
-- Testando 
 
+# 🔎Passo a Passo
 ## 1) VPC
 
 1. Procure por VPC
