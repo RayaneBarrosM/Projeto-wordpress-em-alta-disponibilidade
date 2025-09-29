@@ -11,14 +11,14 @@
 - AMI Amazon/Linux
 
 ## Sumario
-- VPC[Link Text](#VPC).
-- Security Group [Link Text](#Security-Group). 
-- RDS [Link Text](#Configurando-Banco-de-dados(RDS)).
-- Criando EFS [Link Text](#Criando-EFS).
-- Launch Template [Link Text](#Launch-Template).
-- ALB [Link Text](#Criar-o-Application-Load-Balancer-(ALB)).
-- ASG [Link Text](#Criar-o-Auto-Scaling-Group-(ASG)).
-- Testando [Link Text](#Testando).
+- VPC
+- Security Group 
+- RDS 
+- Criando EFS 
+- Launch Template
+- ALB 
+- ASG 
+- Testando 
 
 ## 1) VPC
 
