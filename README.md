@@ -7,9 +7,16 @@
 - armazenar dados em banco relacional SQL
 
 ## Tecnologias utilizadas
-- Maquina Windows 10
-- AMI Amazon/Linux
-
+- **Infraestrutura em Nuvem:** AWS (Amazon Web Services)
+    - VPC, Subnets Públicas e Privadas
+    - Application Load Balancer (ALB) e Auto Scaling Group (ASG)
+    - Amazon RDS (com MySQL/MariaDB)
+    - Amazon EFS (Elastic File System)
+    - Internet Gateway (IGW), NAT Gateway, Route Tables
+- **Sistema Operacional:** AMI Amazon Linux 2023
+- **Containerização:** Docker e Docker Compose
+- **Aplicação:** WordPress
+  
 ## Sumario
 - VPC
 - Security Group 
