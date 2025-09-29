@@ -10,253 +10,227 @@
 - Maquina Windows 10
 - AMI Amazon/Linux
  
-# 🏹Passo a passo
-- VPC
-- RDS
-- EFS
-- Launch Template
-- ASG e ALB
-
-# Configurando a Rede
 ## 1) VPC
+
 1. Procure por VPC
 2. clique em `criar VPC`
 3. Selecione a opção "VPC e muito mais
-<img width="1322" height="848" alt="image" src="https://github.com/user-attachments/assets/69e73b92-2f35-4b60-bd4a-44a0f9a1ff81" />
+4. nomeie, escolha 2 zonas de disponibilidade, 2 sub-redes publicas e 4 sub-redes privadas
+5. clique em `Criar VPC`
+<img width="1322" height="848" alt="image" src="https://github.com/user-attachments/assets/6e026b77-2838-4c89-8529-a1454a153913" />
 
-. clique em `Criar VPC`
+## Subnets
 
------------------------------------------manual----------------------------
-## 2) Sub-redes
-1. Na barra de pesquisa procure por VPC
-2. Crie a VPC
-3. vá em Sub-redes e clique em <ins>`Criar sub-rede`</ins>
-4. Adicione a vpc
-5. Em configurações nomeie, adicone a zona 1a, e o bloco CIDR
-6. Repita este processo até ter 6 subredes
+1. Escolha 2 sub-redes uma em cada AZ e renomeie como subnet-rds
 
-<img width="887" height="295" alt="image" src="https://github.com/user-attachments/assets/dbf538ef-b729-4480-8dd1-a700cce448a1" />
+## Tabela de rotas
 
-❗<ins>Devem ser criadas 6 sub-redes que devem ser divididas entre duas AZ(Zonas de **disponibilidade**) e em publicas ou privadas, as privadas serão divididas entre o rds e a aplicação</ins>
+As tabelas de rotas conjunto de regras que determinam o trafego
 
-| Sub-nets  | Quantidade | Publica | Privada |
-| ------------- | ------------- | ------------- | ------------- |
-| sub-net zona 1a  | 3 | 1 | 2 |
-| sub-net zona 1b  | 3 | 1 | 2 |
+1. As tabelas foram criadas automaticamente, então verifique se o internet gateway na tabela publica e se dois natgataways foram criados para duas tabelas privadas
+2. Selecione a tabela private1
+3. Após isso va na aba `Associação de subrede`
+4. Clique em `editar associação`
+5. Selecione as subredes privadas que fazem parte da mesma zona
+6. Refaça o processo com a tabela private2
 
-## 3) Criando Internet Gateway
-O Internet Gateway(IGW) é usado para tráfego **PÚBLICO** (entrada e saída).
-1. Na barra lateral escolha internet Gateway e clique no botão `Criar Gateway da Internet`
-2. nomeio
-3. Após criado associe a sua VPC 
+<img width="686" height="370" alt="image" src="https://github.com/user-attachments/assets/52aee927-50b8-4190-a729-1f9eced35ae5" />
 
-<img width="988" height="259" alt="image" src="https://github.com/user-attachments/assets/8b07ce27-25c4-43f2-8191-3e47ec2e3c8d" />
-
-## 4) Criando NAT Gateway
-O NAT gataway permiti o tráfego de saída de internet de instâncias em uma sub-rede privada.
-1. Escolha NAT Gateway e clique no botão `criar gateway NAT`
-2. nomei-lo, escolha uma sub-rede publica, definia a conectvidade como publica e aloque um IP elastico(caso não tenha ele ira criar automaticamente ao clicar em alocar IP elastico).
-3. para este projeto será necessario criar dois nat gateways, um para dara zona 
-
-<img width="616" height="370" alt="image" src="https://github.com/user-attachments/assets/515aeed8-57b6-44e5-84a4-5c6e8ba5c81d" />
-
-## 4 Criando tabela de rotas
-A tabela de rotas serve como controlador de tráfego para sua nuvem privada virtual (VPC).
-
-1. Procure na lateral por tabela de rotas e clique em `criar`
-2. nomeia conforme a conectividade e indique a VPC
-3. crie 3 tabelas(duas privadas e uma publica)
-4. Va para a aba rotas
-5. clique em `Editar rotas`
-6. Nas tabelas privadas adicione **Destino**: 0.0.0.0/0 **Alvo**: IP-natgateway
-7. Na tabela publica adicione **Destino**: 0.0.0.0/0 **Alvo**: IP-internet_gateway
-8. Va para a aba Associação de sub-rede e clique em `Editar associação de sub-rede`
-9. selecione as que que voce separou para o tipo de conectividade da tabela
-
-<img width="1124" height="493" alt="image" src="https://github.com/user-attachments/assets/b34f8cf4-36b7-47c1-843c-a17e9e1d8810" />
-
-Ao final teremos: 
-| Tabelas  | Quantidade subnets |
-| ------------- | ------------- |
-| Privada  | 2 |
-| Privada  | 2 |
-| Publico  | 2 | 
 # Security Group
+
 Para continuar o projeto devem ser feitos securitys groups para o Bastion Host, ALB, EC2, RDS e EFS.
 **Regras de entras do SG-Bastion:**
-| Tipo  | Origem |
+
+| Tipo | Origem |
+| --- | --- |
+| SSH | IP |
+| **Regras de entras do SG-Load-Balancer:** |  |
+| Tipo | Origem |
 | ------------- | ------------- |
-| SSH  | IP |
-**Regras de entras do SG-Load-Balancer:**
-| Tipo  | Origem |
+| HTTP | 0.0.0.0/0 |
+| **Regras de entras do SG-EC2:** |  |
+| Tipo | Origem |
 | ------------- | ------------- |
-| HTTP  | 0.0.0.0/0 |
-**Regras de entras do SG-EC2:**
-| Tipo  | Origem |
-| ------------- | ------------- |
-| HTTP  | SG-ALB |
-| SSH  | SG-Bastion |
-| Todo trafego  | IP |
-**Regras de entras do SG-RDS:**
-| Tipo  | Origem |
+| HTTP | SG-ALB |
+| SSH | SG-Bastion |
+| Todo trafego | IP |
+| **Regras de entras do SG-RDS:** |  |
+| Tipo | Origem |
 | ------------- | ------------- |
 | MySQL/Aurora | SG-EC2 |
-**Regras de entras do SG-EFS:**
-| Tipo  | Origem |
+| **Regras de entras do SG-EFS:** |  |
+| Tipo | Origem |
 | ------------- | ------------- |
-| NFS  | SG-EC2 |
+| NFS | SG-EC2 |
 
+# 3) Configurando Banco de dados(RDS)
 
-# Configurando Banco de dados(RDS)
 1. Na barra de busca pesquise por RDS
-2. na lateral clique em grupos de sub-redes
-3. verifique se `wordpress-db-subnet-group` foi criado automaticamente
-4. caso tenha sido clique em `Editar subredes`
-5. Escolha as zonas us-east-a e us-east-b e as subnets separadas para o rds
-    <img width="642" height="680" alt="image" src="https://github.com/user-attachments/assets/7ec7f94c-43b0-4862-b2c9-bb0091b713e0" />
-6. Va para Banco de dados
+2. Procure na barra lateral por `Grupos de sub-redes`
+3. Clique em `Criar grupo de sub-redes de banco de dados`
+4. Em zona de disponibilidade escolha `us-east-a` e `us-east-b` e selecione as subnets privadas separadas anteriormente para o rds
+5. Clique em `Criar`
+6. Procure na barra lateral por banco de dados
 7. clique em `criar banco de dados`
 8. Escolha criação padrão
 9. Em opções de mecanismo escolha MYSQL versão 8.0.42
-10. Escolha modelo de nivel gratuito single-AZ(apenas para estudo)
-11. escolha autogerenciada e coloque a senha
-12. Escolha a instancia `db.t3.micro`, escolha a sub-rede criada e o grupo de segurança SG-RDS
-13. Clique em `criar banco de dados`
-    
+10. Escolha modelo de nivel gratuito single-AZ(para fins educativos)
+11. de um nome para o banco, coloque seu nome de usuario(admin) e escolha a opção autogerenciada
+12. escolha a instancia db.t3.micro
+13. Escolha Grupo de segurança SG-RDS
+14. Clique em `criar banco de dados`
+
 <img width="818" height="65" alt="image" src="https://github.com/user-attachments/assets/69bc7151-1f46-49a3-a6ec-ad45ebab4998" />
 
-## 3) Criando EFS
+## 4) Criando EFS
 
-1. **Acesse o Console do EFS:**
-2. Clique em `Criar sistema de arquivos` e em `Personalizado`
-3. nomeie e aberte o botão `Proximo`
-4. No *Mount Target* verifique se o ID das sub-redes são das separadas para o rds
-5. Clique em `próximo` e depois em `criar`
+1. Acesse o Console do EFS
+2. Clique em `Criar sistema de arquivos` e `Personalizar`
+3. nomeie e passe para apro´xima pagina
+4. Foram criado um **Mount Target** em cada AZ da sua VPC
+5. Verifique se os IDs são das sub-nets rds
+6. clique em `Criar`
+
 ## 4) Launch Template
 
 1. crie um User data
 
 ```
 #!/bin/bash
-# Script de user-data para instalar WordPress via Docker Compose
+set -x
 
-# Redirecionamento simples para o log de instalação
-# TUDO que for impresso daqui para frente vai para este arquivo.
-exec > /var/log/wordpress-install.log 2>&1
+echo "- INICIANDO INSTALAÇÃO - "
+echo "Data/Hora de Início: $(date)"
 
-echo "=== 🚀 INICIANDO INSTALAÇÃO AUTOMATIZADA DO WORDPRESS ==="
-echo "Data/Hora: $(date)"
-
-# ... O restante do seu script (com yum e systemctl) vem aqui ...
-echo "=== 🚀 INICIANDO INSTALAÇÃO AUTOMATIZADA DO WORDPRESS ==="
-echo "Data/Hora: $(date)"
-# [1/4] Atualizar sistema e instalar Docker e cliente EFS
-echo "[1/4] 📦 Atualizando sistema e instalando dependências..."
+echo "[1/3] Instalando Docker, Docker Compose e Dependências ---"
 sudo yum update -y
-sudo yum install -y docker amazon-efs-utils
-echo "✅ Pacotes instalados"
-
-# [2/4] Configurar e iniciar o Docker
-echo "[2/4] 🐳 Configurando e iniciando o Docker..."
+sudo yum install docker -y
 sudo service docker start
-sudo usermod -a -G docker ec2-user
 sudo systemctl enable docker
-echo "✅ Docker configurado e iniciado"
+sudo usermod -a -G docker ec2-user
+echo "  -> Docker configurado e iniciado."
 
-# [3/4] Configurar e montar o EFS
-echo "[3/4] 💾 Configurando e montando EFS..."
-sudo mkdir -p /mnt/efs/wordpress
-# SUBSTITUA o ID do EFS: fs-05d0213523a66f295
-sudo mount -t efs -o tls fs-05d0213523a66f295:/ /mnt/efs
-sudo chown -R ec2-user:ec2-user /mnt/efs
-echo "✅ EFS montado"
+sudo curl -L "<https://github.com/docker/compose/releases/latest/download/docker-compose-$>(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+sudo chmod +x /usr/local/bin/docker-compose
+echo "  -> Docker Compose instalado."
 
-# [4/4] Criar o arquivo docker-compose.yml e iniciar o WordPress
-echo "[4/4] 📁 Criando o arquivo docker-compose.yml e iniciando containers..."
-sudo mkdir -p /home/ec2-user/wordpress-project
-cd /home/ec2-user/wordpress-project
-sudo chown -R ec2-user:ec2-user /home/ec2-user/wordpress-project
-sudo cat > docker-compose.yml << 'EOF'
-version: '3.8'
+sudo yum install -y amazon-efs-utils nfs-utils mysql
+echo "  -> amazon-efs-utils e MySQL client instalados."
+
+echo " [2/3] Configurando e Montando EFS ---"
+sudo mkdir -p /my-compose
+sudo mkdir -p /efs/wp-content
+echo "  -> Diretórios criados."
+
+# Configura variáveis
+RDS_HOST="....amazonaws.com"
+RDS_ADMIN_USER="..."
+RDS_ADMIN_PASSWORD="..."
+WP_DB_NAME="wordpress"
+EFS_DNS="fs-029b5f412d959b9d1.efs.us-east-1.amazonaws.com"
+echo "  -> Variáveis de RDS/EFS configuradas."
+
+# Montagem do EFS
+sudo mount -t nfs4 -o nfsvers=4.1,rsize=1048576,wsize=1048576,hard,timeo=600,retrans=2 $EFS_DNS:/ /efs/wp-content
+echo "  -> EFS montado em /efs/wp-content."
+
+# Configura montagem automática no fstab
+echo "$EFS_DNS:/ /efs/wp-content nfs4 nfsvers=4.1,rsize=1048576,wsize=1048576,hard,timeo=600,retrans=2 0 0" | sudo tee -a /etc/fstab
+
+echo "--- Configurando Permissões ---"
+sudo chmod -R 755 /efs
+sudo chown -R ec2-user:ec2-user /efs/wp-content
+echo "  -> Permissões ajustadas."
+
+echo " [3/3] Configurando DB e Iniciando WordPress ---"
+
+# Cria banco de dados no RDS
+mysql -h $RDS_HOST -u $RDS_ADMIN_USER -p$RDS_ADMIN_PASSWORD -e "CREATE DATABASE IF NOT EXISTS $WP_DB_NAME CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;"
+echo "  -> Banco de dados criado/verificado no RDS."
+
+# Cria o docker-compose.yml
+cat > /my-compose/docker-compose.yml << EOF
+version: '3.3'
+
 services:
   wordpress:
     image: wordpress:latest
-    container_name: wordpress
     restart: always
     ports:
       - "80:80"
     environment:
-      # SUBSTITUA os valores abaixo com os seus do RDS
-      WORDPRESS_DB_HOST: "database-2.ckhgqequqtkn.us-east-1.rds.amazonaws.com"
-      WORDPRESS_DB_USER: "admin"
-      WORDPRESS_DB_PASSWORD: "sbdpJ448!"
-      WORDPRESS_DB_NAME: "database-2"
+      WORDPRESS_DB_HOST: $RDS_HOST:3306
+      WORDPRESS_DB_USER: $RDS_ADMIN_USER
+      WORDPRESS_DB_PASSWORD: $RDS_ADMIN_PASSWORD
+      WORDPRESS_DB_NAME: $WP_DB_NAME
     volumes:
-      # Mapeia o diretório do EFS para o contêiner
-      - /mnt/efs/wordpress:/var/www/html
-    networks:
-      - wordpress_network
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost"]
-      interval: 30s
-      timeout: 10s
-      retries: 5
-networks:
-  wordpress_network:
-    driver: bridge
+      - /efs/wp-content:/var/www/html/wp-content
 EOF
-echo "✅ Arquivo docker-compose.yml criado"
-sleep 5 # Esperar para garantir que o arquivo seja escrito
-sudo docker compose up -d
-echo "✅ Instalação finalizada"
+echo "  -> Arquivo docker-compose.yml criado."
+
+echo "--- Iniciando WordPress ---"
+cd /my-compose
+sudo docker-compose up -d
+echo "  -> Containers WordPress iniciados."
+
+echo "=== ✅ INSTALAÇÃO CONCLUÍDA EM: $(date) ===" | sudo tee /var/log/wordpress-install.log
+
 ```
 
 1. No console EC2 procure por modelo de execução
 2. clique em `criar`
 3. Dê um nome ao seu template.
-4. Selecione a **AMI Amazon**
-6. **Instance type:** Escolha o tipo de instância `t2.micro`
-7. **Key pair:** Selecione a chave SSH usada anteriormente ou crie um novo
-8. **Security groups:** Associe os SGs EC2
-9. **Em User data** e cole o script
-10. Expanda a seção "Detalhes avançados" no final cole o script no user data
-12. clique em `criar modelo`
+4. Selecione a AMI Amazon
+5. Escolha o tipo de instância `t2.micro`
+6. Selecione a chave SSH usada anteriormente para acesso ou crie uma nova
+7. Associe os SGs EC2
+8. expanda a seção "Detalhes avançados" e cole o script
 
-# 4) Criar o Application Load Balancer (ALB)
-1. O ALB distribuirá o tráfego entre as instâncias do ASG.
-2. No console da AWS, vá para **EC2 > Load Balancers**
-3. 
-   
-# 5) Criar o Auto Scaling Group (ASG):
-1. Clique em **Create Auto Scaling group**.
-2. Dê um nome ao seu ASG.
-3. Selecione o **Launch Template** que você acabou de criar.
-4. Configure as sub-redes privadas para o ASG adicionando a sua VPC e todas as subnets privadas→proximo.
-5. Vincule o ASG ao seu **Application Load Balancer (ALB)**
-6. Na aba **Anexar a um novo balanceador de carga escolha Application Load Balancer, nomeie, interface-facing, escolha duas sub-nets publicas e crie um novo grupo de destino**
-7. Passe para a próxima etapa
+# 5) Criar o Application Load Balancer (ALB)
+
+1. No console da EC2 procure por Load Balancer
+2. clique em `Load Balancer`
+3. Escolha `Application load balancer`
+4. Mude para **internet facing**
+5. Deixe **Grupos de IPs** desmarcado
+6. Selecione suas subnets públicas
+7. Escolha o security group SG-ALB
+8. clique em `Criar grupo de destino`
+9. nomeie e em **Configurações avançadas**
+10. Porta da verificação: Porta de tráfego (Traffic port)
+11. Salve e volte para o ALB
+12. Atualize os grupos de destinos e selecione o que acabou de ser criado
+
+# 6) Criar o Auto Scaling Group (ASG):
+
+1. Clique em **Create Auto Scaling group**
+2. Dê um nome ao seu ASG
+3. Selecione o **Launch Template** que você acabou de criar
+4. adicione a sua VPC e todas as subnets privadas -> próximo
+5. Vincule o ASG ao seu Application Load Balancer(ALB) e escolha o destino
+6. Passe para a próxima etapa
+7. Em tamanho do grupo coloque **Capacidade desejada: 2**, **Capacidade desejada: 2** e **Capacidade desejada: 2**
 8. Escolha Política de dimensionamento com monitoramento do objetivo e nomeie
 9. clique em `criar`
 
-
-
 # 6) Testando
-1. crie uma instancia para fazer a coneção com a instancia via Bastion Host
-2. utilize a mesma chave de acesso anterior, habilite IP publico e permita apenas trafego ssh
-3. utilize o security group `SG-Bastion`
-4. abra o powershell ou Git Bash e rode o comando
-  ```
-  scp -i "KeyPair-04.pem" "KeyPair-04.pem" ec2-user@<IP_PUBLICO_DO_BASTION_HOST>:/home/ec2-user/
+
+1. Crie uma instancia para fazer a coneção com a instancia privada via Bastion Host
+2. Utilize a mesma chave de acesso anterior, habilite IP publico e permita apenas trafego ssh
+3. Abra o powershell ou Git Bash e rode o comando
+
+```
+  scp -i "KeyPair-04.pem" "KeyPair-04.pem" ec2-user@SEU_IP_PUBLICO_BASTION_HOST:/home/ec2-user/
   ssh -i "caminho-da-chave-de-acesso.pem" ec2-user@IP-instancia Bastion_host
   chmod 400chave-de-acesso.pem
   ssh -i "chave-de-acesso.pem" ec2-user@IP-privado-instancia-wordpress
-  ```
-para ver os logs digite `cat /var/log/wordpress-install.log`
+  cat /var/log/wordpress-install.log #para ver os logs
 
-**Casos de unhealth**
-verifique se foram criados dois nat gateways para cada região, ambos estão com tipo de conectividade publica e IPs publicos e privados, além disso tenho duas tabelas de rotas privadas cada uma recebendo duas subnets privadas com as rotas no padrão 172.31.0.0/16	local
-0.0.0.0/0	nat-xxxxxxxxxxxxx (Seu NAT Gateway ID)
------------------------------------
-## 2) Editando WordPress
+```
+
+**Caso de unhealth no grupo de destino**
+verifique a internet com o comando `ping google.com`
+
+## 7) Editando WordPress
 Para saber mais sobre como editar o wordpress [Clique aqui](./Wordpress-Edição.md)
 
