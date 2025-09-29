@@ -36,7 +36,7 @@ As tabelas de rotas conjunto de regras que determinam o trafego
 
 <img width="686" height="370" alt="image" src="https://github.com/user-attachments/assets/52aee927-50b8-4190-a729-1f9eced35ae5" />
 
-# Security Group
+# 2) Security Group
 
 Para continuar o projeto devem ser feitos securitys groups para o Bastion Host, ALB, EC2, RDS e EFS.
 **Regras de entras do SG-Bastion:**
