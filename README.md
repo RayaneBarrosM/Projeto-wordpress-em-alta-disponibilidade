@@ -49,24 +49,14 @@ As tabelas de rotas conjunto de regras que determinam o trafego
 
 Para continuar o projeto devem ser feitos securitys groups para o Bastion Host, ALB, EC2, RDS e EFS.
 | Security Group | Tipo | Origem |
-| :---: | :---: | :---: |
+| --- | --- | --- |
 | SG-Bastion | SSH | IP |
-| :---: | :---: | :---: |
 | SG-Load-Balancer | HTTP | 0.0.0.0/0 |
-| :---: | :---: | :---: |
 | SG-EC2 | HTTP | SG-ALB |
 | | SSH | SG-Bastion |
 | | Todo trafego | IP |
-| :---: | :---: | :---: |
 | SG-RDS | MySQL/Aurora | SG-EC2 |
-| --- | --- | --- |
 | SG-EFS | NFS | SG-EC2 |
-
-
-----
-    | Coluna 1 | Coluna 2 | Coluna 3 |
-    | --- | --- | --- |
-    |conteudo1|conteudo2|conteudo3|
 
 # 3) Configurando Banco de dados(RDS)
 
