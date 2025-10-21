@@ -59,7 +59,7 @@ Para continuar o projeto devem ser feitos securitys groups para o Bastion Host, 
 | | Todo trafego | IP |
 | :---: | :---: | :---: |
 | SG-RDS | MySQL/Aurora | SG-EC2 |
-| :---: | :---: | :---: |
+| --- | --- | --- |
 | SG-EFS | NFS | SG-EC2 |
 
 # 3) Configurando Banco de dados(RDS)
