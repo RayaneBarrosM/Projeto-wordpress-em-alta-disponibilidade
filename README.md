@@ -62,6 +62,12 @@ Para continuar o projeto devem ser feitos securitys groups para o Bastion Host, 
 | --- | --- | --- |
 | SG-EFS | NFS | SG-EC2 |
 
+
+----
+    | Coluna 1 | Coluna 2 | Coluna 3 |
+    | --- | --- | --- |
+    |conteudo1|conteudo2|conteudo3|
+
 # 3) Configurando Banco de dados(RDS)
 
 1. Na barra de busca pesquise por RDS
